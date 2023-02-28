@@ -37,9 +37,10 @@ http
                 response.write(projectContent);
                 response.end();
                 break;
-            case "/register":
+            case "/home":
                 response.write(homeContent);
-                response.end()
+                response.end();
+                break;
             default:
                 response.write(registerContent);
                 response.end();
