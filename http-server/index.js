@@ -38,10 +38,10 @@ http
                 response.end();
                 break;
             case "/register":
-                response.write(registerContent);
+                response.write(homeContent);
                 response.end()
             default:
-                response.write(homeContent);
+                response.write(registerContent);
                 response.end();
                 break;
         }
