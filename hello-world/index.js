@@ -1,5 +1,3 @@
-const hello = () => {
-    console.log("Hello Node JS");
-};
+let args = require('minimist')(process.argv.slice(2))
 
-hello();
+console.log(args['port'])
