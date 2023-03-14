@@ -42,9 +42,11 @@ describe("Todolist Test Suite", () => {
         new Date(new Date().setDate(dateToday.getDate() - 1))
       ),
     });
-    var overdues = todos.overdue();
 
-    expect(overdues.length).toBeGreaterThan(0);
+    var overdues = todos.overdue();
+    let greater = overdues.length > 0;
+
+    expect(true).toBe(greater);
   });
 
   test("should retrieval of due today items", () => {
@@ -54,8 +56,8 @@ describe("Todolist Test Suite", () => {
       dueDate: formattedDate(dateToday),
     });
     var dueToday = todos.dueToday();
-
-    expect(dueToday.length).toBeGreaterThan(0);
+    var greater = dueToday.length > 0;
+    expect(true).toBe(greater);
   });
 
   test("should retrieval of due later items", () => {
@@ -67,7 +69,7 @@ describe("Todolist Test Suite", () => {
       ),
     });
     var dueLater = todos.dueLater();
-
-    expect(dueLater.length).toBeGreaterThan(0);
+    var greater = dueLater.length > 0;
+    expect(true).toBe(greater);
   });
 });

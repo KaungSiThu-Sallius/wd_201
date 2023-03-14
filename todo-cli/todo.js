@@ -11,36 +11,23 @@ const todoList = () => {
   const overdue = () => {
     // Write the date check condition here and return the array
     // of overdue items accordingly.
-    dueArr = [];
-    all.forEach((element) => {
-      if (element.dueDate == yesterday) {
-        dueArr.push(element);
-      }
-    });
+    dueArr = all.filter((element) => element.dueDate == yesterday);
+
     return dueArr;
   };
 
   const dueToday = () => {
     // Write the date check condition here and return the array
     // of todo items that are due today accordingly.
-    todayArr = [];
-    all.forEach((element) => {
-      if (element.dueDate == today) {
-        todayArr.push(element);
-      }
-    });
+    todayArr = all.filter((element) => element.dueDate == today);
+
     return todayArr;
   };
 
   const dueLater = () => {
     // Write the date check condition here and return the array
     // of todo items that are due later accordingly.
-    tmrArr = [];
-    all.forEach((element) => {
-      if (element.dueDate == tomorrow) {
-        tmrArr.push(element);
-      }
-    });
+    tmrArr = all.filter((element) => element.dueDate == tomorrow);
     return tmrArr;
   };
 
@@ -49,6 +36,8 @@ const todoList = () => {
     // as per the format given above.
     newList = [];
     list.forEach((element) => {
+      // const completionStatus = item.completed ? "[x]" : "";
+      // const displayedDate = item.dueDate === new Date().toLocaleDateString("en-CA") ? "" : item.dueDate;
       str = "";
       if (element.completed) {
         str += "[x] ";
@@ -80,8 +69,6 @@ module.exports = todoList;
 // DO NOT CHANGE ANYTHING BELOW THIS LINE. #
 // ####################################### #
 
-// const todos = todoList();
-
 const formattedDate = (d) => {
   return d.toISOString().split("T")[0];
 };
@@ -94,6 +81,7 @@ const yesterday = formattedDate(
 const tomorrow = formattedDate(
   new Date(new Date().setDate(dateToday.getDate() + 1))
 );
+// const todos = todoList();
 
 // todos.add({ title: 'Submit assignment', dueDate: yesterday, completed: false })
 // todos.add({ title: 'Pay rent', dueDate: today, completed: true })
