@@ -34,22 +34,32 @@ const todoList = () => {
   const toDisplayableList = (list) => {
     // Format the To-Do list here, and return the output string
     // as per the format given above.
-    newList = [];
-    list.forEach((element) => {
-      // const completionStatus = item.completed ? "[x]" : "";
-      // const displayedDate = item.dueDate === new Date().toLocaleDateString("en-CA") ? "" : item.dueDate;
-      str = "";
-      if (element.completed) {
-        str += "[x] ";
-      } else {
-        str += "[ ] ";
-      }
-      str += element.title;
-      if (element.dueDate != today) {
-        str += " " + element.dueDate;
-      }
-      newList.push(str);
+
+    // const completionStatus = item.completed ? "[x]" : "";
+    // const displayedDate = item.dueDate === new Date().toLocaleDateString("en-CA") ? "" : item.dueDate;
+
+    newList = list.map((element) => {
+      const completionStatus = element.completed ? "[x] " : "[] ";
+      const displayedDate =
+        element.dueDate === new Date().toLocaleDateString("en-CA")
+          ? ""
+          : element.dueDate;
+      return completionStatus + element.title + " " + displayedDate;
     });
+    // list.forEach((element) => {
+
+    //   str = "";
+    //   if (element.completed) {
+    //     str += "[x] ";
+    //   } else {
+    //     str += "[ ] ";
+    //   }
+    //   str += element.title;
+    //   if (element.dueDate != today) {
+    //     str += " " + element.dueDate;
+    //   }
+    //   newList.push(str);
+    // });
     return newList.join("\n");
   };
 

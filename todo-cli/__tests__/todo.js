@@ -35,6 +35,9 @@ describe("Todolist Test Suite", () => {
   });
 
   test("should retrieval of overdue items", () => {
+    var overduesBefore = todos.overdue();
+    var overdueBeforeCount = overduesBefore.length;
+
     add({
       title: "Test todo yesterday",
       completed: false,
@@ -44,23 +47,27 @@ describe("Todolist Test Suite", () => {
     });
 
     var overdues = todos.overdue();
-    let greater = overdues.length > 0;
+    let overdueLength = overdues.length;
 
-    expect(true).toBe(greater);
+    expect(overdueLength).toBe(overdueBeforeCount + 1);
   });
 
   test("should retrieval of due today items", () => {
+    var dueTodayBefore = todos.dueToday();
+    var dueTodayBeforeCount = dueTodayBefore.length;
     add({
       title: "Test todo due today",
       completed: false,
       dueDate: formattedDate(dateToday),
     });
     var dueToday = todos.dueToday();
-    var greater = dueToday.length > 0;
-    expect(true).toBe(greater);
+    let dueTodayLength = dueToday.length;
+    expect(dueTodayLength).toBe(dueTodayBeforeCount + 1);
   });
 
   test("should retrieval of due later items", () => {
+    var dueLaterBefore = todos.dueLater();
+    var dueLaterBeforeCount = dueLaterBefore.length;
     add({
       title: "Test todo due later",
       completed: false,
@@ -69,7 +76,7 @@ describe("Todolist Test Suite", () => {
       ),
     });
     var dueLater = todos.dueLater();
-    var greater = dueLater.length > 0;
-    expect(true).toBe(greater);
+    let dueLaterLength = dueLater.length;
+    expect(dueLaterLength).toBe(dueLaterBeforeCount + 1);
   });
 });
