@@ -13,7 +13,7 @@ var dateToday = new Date();
 describe("Todolist Test Suite", () => {
   beforeAll(() => {
     add({
-      title: "Test todo",
+      title: "Test todo Test",
       completed: false,
       dueDate: new Date().toISOString("en-CA"),
     });
