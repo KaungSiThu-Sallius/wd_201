@@ -40,10 +40,7 @@ const todoList = () => {
 
     newList = list.map((element) => {
       const completionStatus = element.completed ? "[x] " : "[] ";
-      const displayedDate =
-        element.dueDate === new Date().toLocaleDateString("en-CA")
-          ? ""
-          : element.dueDate;
+      const displayedDate = element.dueDate === today ? "" : element.dueDate;
       return completionStatus + element.title + " " + displayedDate;
     });
     // list.forEach((element) => {
