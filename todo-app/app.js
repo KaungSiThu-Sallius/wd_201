@@ -5,8 +5,20 @@ const { Todo } = require("./models");
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
-app.get("/", function (request, response) {
-    response.send("Hello World");
+app.set("view engine", "ejs")
+
+app.get("/", async function (request, response) {
+    const allTodos = await Todo.getTodos();
+    if (request.accepts("html")) {
+        response.render('index', {
+            allTodos
+        });
+    } else {
+        response.json({
+            allTodos
+        })
+    }
+
 });
 
 app.get("/todos", async function (_request, response) {
