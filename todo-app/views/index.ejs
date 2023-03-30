@@ -7,22 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo Application</title>
 
-    <style>
-        table,
-        th,
-        td {
-            border: 1px solid black;
-        }
-    </style>
 </head>
 
 <body>
-    <%- include('header.ejs') %>
+    <table>
+        <tr>
+            <td>
+                <%- include('header.ejs') %>
+            </td>
+        </tr>
+        <tr>
+            <td><%- include('todos.ejs') %></td>
+        </tr>
+        <tr>
+            <td><%- include('footer.ejs') %></td>
+        </tr>
+    </table>
 
-        <%- include('todos.ejs') %>
 
 
-            <%- include('footer.ejs') %>
 </body>
 
 </html>
