@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
 app.set("view engine", "ejs")
+app.use(express.static("public"));
 
 app.get("/", async function (request, response) {
     const allTodos = await Todo.getTodos();
@@ -18,7 +19,6 @@ app.get("/", async function (request, response) {
             allTodos
         })
     }
-
 });
 
 app.get("/todos", async function (_request, response) {
