@@ -3,6 +3,10 @@ const express = require("express");
 const app = express();
 const { Todo } = require("./models");
 
+//protect CSRF
+var csrf = require('csurf')
+var cookieParser = require('cookie-parser')
+
 //for use json file
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
@@ -15,6 +19,11 @@ app.use(express.static("public"));
 
 //for form post request
 app.use(express.urlencoded({ extended: false }));
+
+app.use(cookieParser("shh! some secret string"))
+app.use(csrf({
+    cookie: true,
+}))
 
 app.get("/", async function (request, response) {
     const allTodos = await Todo.getTodos();
@@ -29,10 +38,13 @@ app.get("/", async function (request, response) {
             dueToday,
             dueLater,
             allTodos,
+            csrfToken: request.csrfToken(),
         });
     } else {
         response.json({
-            allTodos,
+            overdue,
+            dueToday,
+            dueLater,
         });
     }
 });
