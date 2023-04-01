@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       return this.findAll();
     }
 
-    static overdue() {
+    static async overdue() {
       return this.findAll({
         where: {
           dueDate: {
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static dueToday() {
+    static async dueToday() {
       return this.findAll({
         where: {
           dueDate: {
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static dueLater() {
+    static async dueLater() {
       return this.findAll({
         where: {
           dueDate: {
@@ -49,6 +49,14 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       });
+    }
+
+    static async remove(id) {
+      return this.destroy({
+        where: {
+          id
+        }
+      })
     }
 
     markAsCompleted() {
