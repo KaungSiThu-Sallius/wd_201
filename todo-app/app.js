@@ -4,7 +4,7 @@ const app = express();
 const { Todo } = require("./models");
 
 //protect CSRF
-var csrf = require('csurf')
+var csrf = require('tiny-csrf')
 var cookieParser = require('cookie-parser')
 
 //for use json file
@@ -21,9 +21,9 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser("shh! some secret string"))
-app.use(csrf({
-    cookie: true,
-}))
+app.use(csrf(
+    "this_should_be_32_character_long", ["POST", "PUT", "DELETE"]
+))
 
 app.get("/", async function (request, response) {
     const allTodos = await Todo.getTodos();
