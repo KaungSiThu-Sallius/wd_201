@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 const request = require("supertest");
 
@@ -45,7 +46,7 @@ describe("Todo Application", function () {
   test("Marks a todo with the given ID as complete", async () => {
     let res = await agent.get("/");
     let csrfToken = extractCsrfToken(res)
-    const response = await agent.post("/todos").send({
+    await agent.post("/todos").send({
       title: "Buy milk",
       dueDate: new Date().toISOString(),
       completed: false,
@@ -62,7 +63,7 @@ describe("Todo Application", function () {
     res = await agent.get("/")
     csrfToken = extractCsrfToken(res)
 
-    const markCompleteResponse = await agent.put(`/todos/${latestTodo.id}/markAsCompleted`).send({
+    const markCompleteResponse = await agent.put(`/todos/${latestTodo.id}`).send({
       _csrf: csrfToken,
     })
     const parsedUpdateResponse = JSON.parse(markCompleteResponse.text)
@@ -88,17 +89,31 @@ describe("Todo Application", function () {
   //   expect(parsedResponse[3]["title"]).toBe("Buy ps3");
   // });
 
-  // test("Deletes a todo with the given ID if it exists and sends a boolean response", async () => {
-  //   // FILL IN YOUR CODE HERE
-  //   const response = await agent.post("/todos").send({
-  //     title: "Buy milk",
-  //     dueDate: new Date().toISOString(),
-  //     completed: false,
-  //   });
-  //   const parsedResponse = JSON.parse(response.text);
-  //   const todoID = parsedResponse.id;
+  test("Deletes a todo with the given ID if it exists and sends a boolean response", async () => {
+    let res = await agent.get("/");
+    let csrfToken = extractCsrfToken(res)
 
-  //   const dResponse = await agent.delete(`/todos/${todoID}`).send();
-  //   expect(dResponse.text).toBe("true");
-  // });
+    const groupedTodoResponse1 = await agent.get("/").set("Accept", "application/json");
+    const parsedGroupedResponse1 = JSON.parse(groupedTodoResponse1.text);
+
+    const old_count = parsedGroupedResponse1.dueToday.length;
+
+    await agent.post("/todos").send({
+      title: "Buy Book",
+      dueDate: new Date().toISOString(),
+      completed: false,
+      "_csrf": csrfToken
+    });
+
+    const groupedTodoResponse = await agent.get("/")
+      .set("Accept", "application/json");
+    const parsedGroupedResponse = JSON.parse(groupedTodoResponse.text);
+
+    const count = parsedGroupedResponse.dueToday.length;
+
+    new_count = parseInt(old_count) + 1
+    expect(new_count).toBe(count);
+
+
+  });
 });

@@ -12,14 +12,17 @@
     <link rel="stylesheet" href="/css/styles.css">
     <script>
         var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+
         function updateTodo(id) {
-            fetch(`/todos/${id}/markAsCompleted`, {
+            var isChecked = document.querySelector(`#todo-checkbox-${id}`).checked
+            fetch(`/todos/${id}`, {
                 method: 'put',
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    "_csrf": token
+                    "_csrf": token,
+                    "completed": isChecked
                 })
             })
                 .then((res) => {
@@ -65,7 +68,7 @@
                         <div class="flex-auto">
                             <input type="date"
                                 class="leading-4 border border-gray-300 rounded text-gray-900 w-full p-2 text-sm"
-                                name="dueDate" id="">
+                                name="dueDate" id="" required>
                         </div>
                         <div class="flex-none">
                             <button type="submit"
@@ -76,6 +79,8 @@
                 <%- include('todos.ejs', {title: "Overdue" , data: overdue}) %>
                     <%- include('todos.ejs', {title: "Due Today" , data: dueToday}) %>
                         <%- include('todos.ejs', {title: "Due Later" , data: dueLater}) %>
+                            <%- include('todos.ejs', {title: "Completed Items" , data: completedItems}) %>
+
         </div>
     </div>
 
