@@ -16,11 +16,17 @@ module.exports = {
         validate: {
           notNull: true,
           len: 5,
+          notEmpty: {
+            message: 'Todo title cannot be empty'
+          }
         }
       },
       dueDate: {
         type: Sequelize.DATEONLY,
         allowNull: false,
+        notEmpty: {
+          messsage: 'Date cannot be empty'
+        }
       },
       completed: {
         type: Sequelize.BOOLEAN,

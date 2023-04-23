@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 const express = require("express");
 const app = express();
@@ -12,6 +13,12 @@ const passport = require('passport')
 const connectEnsureLogin = require('connect-ensure-login')
 const session = require('express-session')
 const LocalStrategy = require('passport-local')
+
+const flash = require("connect-flash");
+
+const path = require("path");
+app.set("views", path.join(__dirname, "views"));
+app.use(flash());
 
 //protect CSRF
 var csrf = require('tiny-csrf')
@@ -49,6 +56,12 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// flash_message
+app.use(function (request, response, next) {
+    response.locals.messages = request.flash();
+    next();
+});
+
 passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
@@ -63,11 +76,11 @@ passport.use(new LocalStrategy({
             if (result) {
                 return done(null, user)
             } else {
-                return done("Invalid password")
+                return done(null, false, { message: "Invalid password" });
             }
 
         }).catch((error) => {
-            return (error)
+            return done(null, false, { message: "Invalid email" });
         })
 }))
 
@@ -186,8 +199,10 @@ app.post("/todos", connectEnsureLogin.ensureLoggedIn(), async function (request,
         return response.redirect("/todos");
     } catch (error) {
         console.log(error);
-        return response.status(422).json(error);
+        request.flash("error", "Date field is empty");
+        // return response.status(422).json(error);
     }
+    response.redirect('/todos');
 });
 
 app.get("/login", (request, response) => {
@@ -197,10 +212,15 @@ app.get("/login", (request, response) => {
     });
 })
 
-app.post("/session", passport.authenticate('local', { failureRedirect: "/login" }), (request, response) => {
-    console.log(request.user)
-    response.redirect("/todos");
-})
+app.post("/session", passport.authenticate(
+    'local', {
+    failureRedirect: "/login",
+    failureFlash: true,
+}),
+    (request, response) => {
+        console.log(request.user)
+        response.redirect("/todos");
+    })
 
 app.put("/todos/:id", connectEnsureLogin.ensureLoggedIn(), async function (request, response) {
     console.log("We have to update a todo with ID: ", request.params.id)
